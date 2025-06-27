@@ -49,7 +49,6 @@ export default function ChatBox() {
     });
 
     const data = await response.json();
-    const aiTimeStamp = new Date().toISOString();
 
     const obj = {
       id: messages.length + 2,
