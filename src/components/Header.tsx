@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="w-full flex items-center justify-between pl-14 px-6 py-4 bg-white shadow-sm">
+    <header className="w-full flex items-center justify-between pl-14 px-6 py-4 bg-white">
       {/* Left-side (icons or logo can go here) */}
       <div className="flex items-center space-x-6">
         <SquarePen />
