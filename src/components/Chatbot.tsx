@@ -19,6 +19,7 @@ export default function ChatBox() {
       id: 1,
       sender: "assistant",
       text: "Hi there! I'm your AI assistant—how can I support you today?",
+      source: '',
     },
   ]);
   useEffect(() => {
@@ -30,6 +31,7 @@ export default function ChatBox() {
       id: messages.length + 1,
       sender: "user",
       text: inputValue.replace(/^[\s\n]+/, ""),
+      source: '',
     };
     setMessages((prev) => [...prev, newMessage]);
     setInputValue("");
@@ -54,7 +56,11 @@ export default function ChatBox() {
       id: messages.length + 2,
       sender: "assistant",
       text: data?.answer,
+      source: '',
     };
+    if (inputValue.toLocaleLowerCase().includes("case study")) {
+      obj.source = "https://roysrijan.github.io/chatbot/" + (data?.sources?.[0]?.metadata?.source || "");
+    }
     setLoading(false);
     return obj;
   };
@@ -68,9 +74,17 @@ export default function ChatBox() {
             ref={idx === messages.length - 1 ? messagesEndRef : null}
             className={`py-2 rounded pr-6 ${
               msg.sender === "assistant" ? "text-left" : "text-right"
-            }`}
+              }`}
           >
             {msg.text}
+            {msg.source && (
+              <div className="text-xs text-gray-500 mt-1">
+                Source:{" "}
+                <a href={msg.source} target="_blank" rel="noopener noreferrer">
+                  {msg.source}
+                </a>
+              </div>
+            )}
           </div>
         ))}
         {loading && <TypingDots />}
