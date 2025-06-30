@@ -38,7 +38,7 @@ export default function RootLayout({
             <Sidebar />
             <Background />
 
-            <div className="flex w-full flex-1 rounded-3xl flex-wrap relative">
+            <div className="flex w-full flex-1 rounded-t-3xl flex-wrap relative bg-[#23232380] mr-20">
               <div className="relative w-full flex-1 flex items-center justify-center z-10">
                 {children}
               </div>
