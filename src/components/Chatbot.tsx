@@ -6,22 +6,25 @@ import {
   Lightbulb,
   Search,
   Cog,
+  ArrowUp,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import TypingDots from "./TypingDots";
-
+import NavButtons from "./NavButtons";
+import Footer from "./Footer";
+import Logo from "./Logo";
+interface Messages {
+  id: number;
+  sender: string;
+  text: string;
+  source: string;
+}
+[];
 export default function ChatBox() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null); // 1. Add ref
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      sender: "assistant",
-      text: "Hi there! I'm your AI assistant—how can I support you today?",
-      source: '',
-    },
-  ]);
+  const [messages, setMessages] = useState<Messages[]>([]);
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -31,7 +34,7 @@ export default function ChatBox() {
       id: messages.length + 1,
       sender: "user",
       text: inputValue.replace(/^[\s\n]+/, ""),
-      source: '',
+      source: "",
     };
     setMessages((prev) => [...prev, newMessage]);
     setInputValue("");
@@ -56,25 +59,44 @@ export default function ChatBox() {
       id: messages.length + 2,
       sender: "assistant",
       text: data?.answer,
-      source: '',
+      source: "",
     };
     if (inputValue.toLocaleLowerCase().includes("case study")) {
-      obj.source = "https://roysrijan.github.io/chatbot/" + (data?.sources?.[0]?.metadata?.source || "");
+      obj.source =
+        "https://roysrijan.github.io/chatbot/" +
+        (data?.sources?.[0]?.metadata?.source || "");
     }
     setLoading(false);
     return obj;
   };
   return (
-    <div className="bg-[#FFFFFFDB] backdrop-blur-md rounded-xl p-6 pb-0 pr-0 mt-8 w-full max-w-2xl mx-auto text-black flex flex-col h-[400px]">
-      {/* Messages Area */}
-      <div className="mb-4 overflow-y-auto space-y-2 flex-1 scrollbar-thin">
+    <div className="w-full h-full flex flex-col justify-center items-center">
+      <div
+        className={`flex flex-col items-center w-full transition-all duration-700
+          ${
+            messages.length > 0
+              ? "opacity-0 -translate-y-32 pointer-events-none hidden"
+              : "opacity-100 translate-y-0 "
+          }
+        `}
+        style={{ willChange: "opacity, transform" }}
+      >
+        <Logo />
+        <NavButtons />
+      </div>
+
+      <div
+        className={`mb-4 overflow-y-auto space-y-2 scrollbar-thin flex-1 w-4/5 max-h-[480px] ${
+          messages.length > 0 ? "" : "hidden"
+        }`}
+      >
         {messages.map((msg, idx) => (
           <div
             key={msg.id}
             ref={idx === messages.length - 1 ? messagesEndRef : null}
             className={`py-2 rounded pr-6 ${
               msg.sender === "assistant" ? "text-left" : "text-right"
-              }`}
+            }`}
           >
             {msg.text}
             {msg.source && (
@@ -89,34 +111,32 @@ export default function ChatBox() {
         ))}
         {loading && <TypingDots />}
       </div>
+      {/* Messages Area */}
 
       {/* Input Area */}
-      <div className="flex justify-between items-start text-black mt-2 pr-6">
-        <div className="flex space-x-4">
-          <Globe />
-          <Lightbulb />
-          <Cog />
-          <Search />
-        </div>
-        <textarea
-          className="w-full resize-none bg-transparent outline-none border-none focus:outline-none h-12 focus:border-none text-black mx-2"
-          placeholder="Type your message..."
-          value={inputValue.replace(/^[\s\n]+/, "")}
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault(); // Prevents newline on enter
-              handleSendMessage();
-            }
-          }}
-        />
-        <div className="flex space-x-4">
-          <Paperclip />
-          <ArrowUpCircle
-            className="cursor-pointer"
-            onClick={handleSendMessage}
+      <div
+        className={`bg-transparent text-white rounded-xl p-6 pr-0 w-full max-w-2xl mx-auto flex flex-col h-[170px] transition-all duration-700 min-w-4/5
+          ${messages.length > 0 ? "opacity-100 translate-y-16" : "opacity-100"}
+        `}
+      >
+        <div className="flex justify-between border border-white p-6 rounded-xl text-white mt-2 pr-6 h-full items-end min-w-4/5">
+          <textarea
+            className="w-full h-full resize-none bg-transparent outline-none border-none focus:outline-none focus:border-none text-white mx-2 min-h-full flex flex-1 "
+            placeholder="Ask Your Right..."
+            value={inputValue.replace(/^[\s\n]+/, "")}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSendMessage();
+              }
+            }}
           />
+          <div className="flex p-1 rounded-md bg-white text-black">
+            <ArrowUp className="cursor-pointer" onClick={handleSendMessage} />
+          </div>
         </div>
+        <Footer />
       </div>
     </div>
   );

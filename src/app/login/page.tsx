@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { facebook, google, loginBg, logo, x } from "../../../public/images";
+import { facebook, google, loginBg, logo_big, x } from "../../../public/images";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -46,7 +46,7 @@ export default function LoginPage() {
         <div className="max-w-md w-full space-y-6 flex flex-col justify-evenly h-full">
           {/* Logo and Title */}
           <div className="flex flex-col items-center space-y-2">
-            <Image src={logo} alt="Logo" width={48} height={48} />
+            <Image src={logo_big} alt="Logo" width={48} height={48} />
             <h2 className="text-3xl font-bold text-gray-800">Login</h2>
           </div>
 

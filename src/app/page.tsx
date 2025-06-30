@@ -20,11 +20,7 @@ export default function Home() {
 
   return (
     <main className="h-full w-full min-h-full flex-1 flex flex-col items-center justify-center relative text-white">
-      <Background />
-      <Header />
-      <NavButtons />
       <ChatBox />
-      <Footer />
     </main>
   );
 }
