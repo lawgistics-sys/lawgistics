@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
-import Background from "@/components/Background";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
@@ -30,13 +29,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+        style={{ backgroundImage: "url('/images/bg.png')" }}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="flex flex-col min-h-screen relative">
           <Header />
           <div className="flex flex-1">
-            <Sidebar />
-            <Background />
+            <Sidebar />    
 
             <div className="flex w-full flex-1 rounded-t-3xl flex-wrap relative bg-[#23232380] mr-20">
               <div className="relative w-full flex-1 flex items-center justify-center z-10">

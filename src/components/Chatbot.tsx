@@ -1,7 +1,5 @@
 "use client";
 import {
-  Paperclip,
-  ArrowUpCircle,
   Globe,
   Lightbulb,
   Search,
@@ -11,15 +9,14 @@ import {
 import { useEffect, useRef, useState } from "react";
 import TypingDots from "./TypingDots";
 import NavButtons from "./NavButtons";
-import Footer from "./Footer";
 import Logo from "./Logo";
 interface Messages {
   id: number;
   sender: string;
   text: string;
   source: string;
-}
-[];
+};
+
 export default function ChatBox() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null); // 1. Add ref
   const [inputValue, setInputValue] = useState("");
@@ -119,24 +116,47 @@ export default function ChatBox() {
           ${messages.length > 0 ? "opacity-100 translate-y-16" : "opacity-100"}
         `}
       >
-        <div className="flex justify-between border border-white p-6 rounded-xl text-white mt-2 pr-6 h-full items-end min-w-4/5">
-          <textarea
+        {/* Input Area */}
+        <div className="relative w-full border border-white p-6 rounded-xl text-white mt-2 pr-6 h-full items-end min-w-4/5">
+          <div className="relative">
+            <textarea
             className="w-full h-full resize-none bg-transparent outline-none border-none focus:outline-none focus:border-none text-white mx-2 min-h-full flex flex-1 "
             placeholder="Ask Your Right..."
-            value={inputValue.replace(/^[\s\n]+/, "")}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                handleSendMessage();
-              }
-            }}
-          />
-          <div className="flex p-1 rounded-md bg-white text-black">
-            <ArrowUp className="cursor-pointer" onClick={handleSendMessage} />
+              value={inputValue.replace(/^[\s\n]+/, "")}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleSendMessage();
+                }
+              }}
+            />
+            {/* Floating Buttons Centered and Overlapping */}
+            <div className="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-15 flex space-x-2 z-10 bg-[#2b2b2b]">
+              <button className="shadow-lg rounded-full p-2 hover:bg-gray-100 transition">
+                <Globe size={20} />
+              </button>
+              <button className="shadow-lg rounded-full p-2 hover:bg-gray-100 transition">
+                <Lightbulb size={20} />
+              </button>
+              <button className="shadow-lg rounded-full p-2 hover:bg-gray-100 transition">
+                <Cog size={20} />
+              </button>
+              <button className="shadow-lg rounded-full p-2 hover:bg-gray-100 transition">
+                <Search size={20} />
+              </button>
+            </div>
+            <div className="absolute right-2 bottom-0 translate-y-15 flex space-x-2">
+              <button
+                className="bg-white shadow-lg rounded-md p-2 hover:white transition text-white"
+                onClick={handleSendMessage}
+                type="button"
+              >
+                <ArrowUp color="black" size={20} />
+              </button>
+            </div>
           </div>
         </div>
-        <Footer />
       </div>
     </div>
   );

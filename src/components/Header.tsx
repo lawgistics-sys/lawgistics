@@ -1,8 +1,7 @@
 // components/HeaderBar.tsx
 "use client";
 
-import { ChevronDown, History, SquarePen, User } from "lucide-react";
-import Link from "next/link";
+import { User } from "lucide-react";
 
 export default function Header() {
   return (

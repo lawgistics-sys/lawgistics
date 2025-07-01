@@ -2,11 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Background from "@/components/Background";
 import ChatBox from "@/components/Chatbot";
-import Footer from "@/components/Footer";
-import Header from "@/components/Logo";
-import NavButtons from "@/components/NavButtons";
 
 export default function Home() {
   const router = useRouter();
