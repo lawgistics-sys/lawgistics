@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ChatBox from "@/components/Chatbot";
+import Background from "@/components/Background";
 
 export default function Home() {
   const router = useRouter();

@@ -5,6 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
+import Background from "@/components/Background";
 config.autoAddCss = false;
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,14 +30,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        style={{ backgroundImage: "url('/images/bg.png')" }}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Background />
         <div className="flex flex-col min-h-screen relative">
           <Header />
           <div className="flex flex-1">
-            <Sidebar />    
-
+            <Sidebar />
             <div className="flex w-full flex-1 rounded-t-3xl flex-wrap relative bg-[#23232380] mr-20">
               <div className="relative w-full flex-1 flex items-center justify-center z-10">
                 {children}

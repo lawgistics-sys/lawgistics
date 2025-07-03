@@ -1,5 +1,3 @@
-"use client";
-
 import { bg } from "../../public/images";
 
 import Image from "next/image";

@@ -1,11 +1,5 @@
 "use client";
-import {
-  Globe,
-  Lightbulb,
-  Search,
-  Cog,
-  ArrowUp,
-} from "lucide-react";
+import { Globe, Lightbulb, Search, Cog, ArrowUp } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import TypingDots from "./TypingDots";
 import NavButtons from "./NavButtons";
@@ -15,7 +9,7 @@ interface Messages {
   sender: string;
   text: string;
   source: string;
-};
+}
 
 export default function ChatBox() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null); // 1. Add ref
@@ -113,15 +107,15 @@ export default function ChatBox() {
       {/* Input Area */}
       <div
         className={`bg-transparent text-white rounded-xl p-6 pr-0 w-full max-w-2xl mx-auto flex flex-col h-[170px] transition-all duration-700 min-w-4/5
-          ${messages.length > 0 ? "opacity-100 translate-y-16" : "opacity-100"}
+          ${messages.length > 0 ? "opacity-100 " : "opacity-100"}
         `}
       >
         {/* Input Area */}
         <div className="relative w-full border border-white p-6 rounded-xl text-white mt-2 pr-6 h-full items-end min-w-4/5">
           <div className="relative">
             <textarea
-            className="w-full h-full resize-none bg-transparent outline-none border-none focus:outline-none focus:border-none text-white mx-2 min-h-full flex flex-1 "
-            placeholder="Ask Your Right..."
+              className="w-full h-full resize-none bg-transparent outline-none border-none focus:outline-none focus:border-none text-white mx-2 min-h-full flex flex-1 "
+              placeholder="Ask Your Right..."
               value={inputValue.replace(/^[\s\n]+/, "")}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => {
