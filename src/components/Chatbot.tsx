@@ -92,8 +92,8 @@ export default function ChatBox() {
             {msg.text}
             {msg.source && (
               <div className="text-xs text-gray-500 mt-1">
-                Source:{" "}
-                <a href={msg.source} target="_blank" rel="noopener noreferrer">
+                <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">Source</span>{" "}
+                <a href={msg.source} className="hover:text-white hover:underline" target="_blank" rel="noopener noreferrer">
                   {msg.source}
                 </a>
               </div>
@@ -126,7 +126,7 @@ export default function ChatBox() {
               }}
             />
             {/* Floating Buttons Centered and Overlapping */}
-            <div className="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-15 flex space-x-2 z-10 bg-[#2b2b2b]">
+            <div className="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-15 flex space-x-2 z-10 bg-[#333333]">
               <button className="shadow-lg rounded-full p-2 hover:bg-gray-100 transition">
                 <Globe size={20} />
               </button>
