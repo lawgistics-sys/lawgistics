@@ -15,7 +15,6 @@
     "lucide-react": "^0.523.0",
     "next": "15.3.4",
     "react": "^19.0.0",
-    "react-border-wrapper": "^1.0.3",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
