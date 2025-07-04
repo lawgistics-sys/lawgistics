@@ -1,4 +1,4 @@
-import { bg, loginBg } from "../../public/images";
+import { loginBg } from "../../public/images";
 
 import Image from "next/image";
 

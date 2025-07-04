@@ -4,15 +4,12 @@ import Image from "next/image";
 import { useState } from "react";
 import {
   facebook,
-  formBg,
   google,
-  loginBg,
-  logo_big,
   x,
 } from "../../../public/images";
 import { useRouter } from "next/navigation";
 import LoginBackground from "@/components/LoginBackground";
-import { Facebook, User, X } from "lucide-react";
+import { User } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -110,7 +107,7 @@ export default function LoginPage() {
         </div>
 
         <div className="text-center text-sm text-gray-300">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <button className="underline font-medium">Register</button>
         </div>
       </div>
