@@ -52,10 +52,11 @@ export default function ChatBox() {
       text: data?.answer,
       source: "",
     };
-    if (inputValue.toLocaleLowerCase().includes("case study")) {
+    const keywords = ["case", "tax", "citation", "law", "court"];
+    if (keywords.some(word => inputValue.toLowerCase().includes(word))) {
       obj.source =
-        "https://roysrijan.github.io/chatbot/" +
-        (data?.sources?.[0]?.metadata?.source || "");
+      "https://roysrijan.github.io/chatbot/" +
+      (data?.sources?.[0]?.metadata?.source || "");
     }
     setLoading(false);
     return obj;
