@@ -13,7 +13,7 @@ export default function NavButtons() {
       {buttons.map((btn) => (
         <button
           key={btn}
-          className="bg-white/10 text-white border border-white px-4 py-2 rounded-full hover:bg-white/20 transition"
+          className="bg-black text-white px-4 py-1.5 rounded-lg hover:bg-white/20 transition"
         >
           {btn}
         </button>
