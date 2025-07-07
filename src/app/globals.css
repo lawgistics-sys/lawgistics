@@ -58,26 +58,3 @@ body {
   border-radius: 9999px;
   cursor: pointer;
 }
-.partial-border-gradient {
-  background: radial-gradient(
-        circle at 100% 100%,
-        #ffffff 0,
-        #ffffff 2px,
-        transparent 2px
-      )
-      0% 0%/8px 8px no-repeat,
-    radial-gradient(circle at 0 100%, #ffffff 0, #ffffff 2px, transparent 2px)
-      100% 0%/8px 8px no-repeat,
-    radial-gradient(circle at 100% 0, #ffffff 0, #ffffff 2px, transparent 2px)
-      0% 100%/8px 8px no-repeat,
-    radial-gradient(circle at 0 0, #ffffff 0, #ffffff 2px, transparent 2px) 100%
-      100%/8px 8px no-repeat,
-    linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 6px)
-      calc(100% - 12px) no-repeat,
-    linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 12px)
-      calc(100% - 6px) no-repeat;
-  background-color: transparent;
-  border-radius: 8px;
-  padding: 12px;
-  box-sizing: border-box;
-}

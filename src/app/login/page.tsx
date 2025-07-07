@@ -2,14 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import {
-  facebook,
-  google,
-  x,
-} from "../../../public/images";
+import { facebook, google, loginBg, logo, x } from "../../../public/images";
 import { useRouter } from "next/navigation";
-import LoginBackground from "@/components/LoginBackground";
-import { User } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -30,85 +24,110 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-full flex flex-1 pb-20">
-      <LoginBackground />
+    <div className="min-h-full flex flex-1">
       {/* Left Side */}
-      <div className="hidden lg:flex w-1/2 relative justify-center items-center px-8  rounded-l-[2rem]">
-        <div className="absolute inset-0 rounded-l-[2rem] z-10"></div>
+      <div className="hidden lg:flex w-1/2 relative justify-center items-center px-8 py-6 rounded-l-[2rem]">
+        <Image
+          src={loginBg}
+          alt="Robot Justice"
+          fill
+          priority
+          className="object-cover rounded-l-[2rem] z-0"
+        />
+        <div className="absolute inset-0 bg-[#0855B724] bg-opacity-60 rounded-l-[2rem] z-10"></div>
         <div className="relative z-20 text-white self-end w-full text-left">
-          <p className="text-lg">
-            Copyright © 2025 Lawgistic.ai. All Rights Reserved.
-          </p>
+          <h1 className="text-4xl font-bold mb-4">Welcome to Lawgistic.ai</h1>
+          <p className="text-lg">Sign in or Create a new account with us.</p>
         </div>
       </div>
 
       {/* Right Side */}
-      <div className="w-full lg:w-1/2 bg-[#636060] p-8 flex flex-col justify-evenly items-center rounded-[2rem] shadow-2xl shadow-black/20">
-        <h2 className="text-2xl font-medium text-center mb-6 text-white font-sans">
-          LOGIN
-        </h2>
+      <div className="w-full lg:w-1/2 bg-[#EAEAEA7A] p-8 flex flex-col justify-center items-center rounded-l-[2rem]">
+        <div className="max-w-md w-full space-y-6 flex flex-col justify-evenly h-full">
+          {/* Logo and Title */}
+          <div className="flex flex-col items-center space-y-2">
+            <Image src={logo} alt="Logo" width={48} height={48} />
+            <h2 className="text-3xl font-bold text-gray-800">Login</h2>
+          </div>
 
-        <div className="mb-4 w-2/3">
-          <label className="block text-sm font-medium mb-1 text-white">
-            USER NAME
-          </label>
-          <div className="bg-[#E8E8E833] rounded-full px-4 py-2 flex items-center text-white">
-            <span className="mr-2">
-              <User />
-            </span>
-            <input
-              type="text"
-              placeholder="Username"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              className="bg-transparent outline-none text-white w-full"
+          {/* Form */}
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-600 mb-1">
+                User Name
+              </label>
+              <input
+                type="email"
+                placeholder="ab@example.com"
+                className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-600 mb-1">
+                Password
+              </label>
+              <input
+                type="password"
+                className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <div className="text-right text-sm text-gray-600">
+              <a href="#" className="hover:underline">
+                Forgot password?
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-[#052945] text-white py-2 rounded-full hover:bg-[#031b2c] transition"
+            >
+              Login
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="flex items-center gap-4 text-gray-400">
+            <hr className="flex-1 border-gray-300" /> or sign up using{" "}
+            <hr className="flex-1 border-gray-300" />
+          </div>
+
+          {/* Social Logins */}
+          <div className="flex justify-center gap-4">
+            <Image
+              src={google}
+              alt="Google"
+              width={42}
+              height={42}
+              className="cursor-pointer"
+            />
+            <Image
+              src={facebook}
+              alt="Facebook"
+              width={42}
+              height={42}
+              className="cursor-pointer"
+            />
+            <Image
+              src={x}
+              alt="X"
+              width={42}
+              height={42}
+              className="cursor-pointer"
             />
           </div>
-        </div>
 
-        <div className="mb-6 w-2/3 text-white">
-          <label className="block text-sm font-medium mb-1">PASSWORD</label>
-          <div className="bg-[#E8E8E833] rounded-full px-4 py-2 flex items-center">
-            <span className="mr-2">
-              <User />
-            </span>
-            <input
-              type="password"
-              placeholder="********"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              className="bg-transparent outline-none text-white w-full "
-            />
+          <div className="text-center text-sm text-gray-600">
+            Don’t have an account?{" "}
+            <a href="#" className="text-indigo-600 hover:underline">
+              Register
+            </a>
           </div>
-        </div>
-
-        <button
-          className="w-2/3 bg-white text-black font-semibold py-2 rounded-full mb-3"
-          onClick={handleLogin}
-        >
-          LOGIN
-        </button>
-
-        <div className="text-right text-sm text-gray-300 mb-6 hover:underline cursor-pointer">
-          Forgot Password?
-        </div>
-
-        <div className="text-center mb-4 text-sm text-white">
-          OR SIGN UP USING
-        </div>
-        <div className="flex justify-center gap-4 mb-6">
-          <Image src={facebook} alt="" className="w-6 h-6 cursor-pointer" />
-          <Image src={x} alt="" className="w-6 h-6 cursor-pointer" />
-          <Image src={google} alt="" className="w-6 h-6 cursor-pointer" />
-        </div>
-
-        <div className="text-center text-sm text-gray-300">
-          Don&apos;t have an account?{" "}
-          <button className="underline font-medium">Register</button>
         </div>
       </div>
     </div>

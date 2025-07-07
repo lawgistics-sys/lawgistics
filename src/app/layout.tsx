@@ -3,10 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
-import "@fortawesome/fontawesome-svg-core/styles.css";
-import { config } from "@fortawesome/fontawesome-svg-core";
-import Background from "@/components/Background";
-config.autoAddCss = false;
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,13 +29,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Background />
         <div className="flex flex-col min-h-screen relative">
           <Header />
           <div className="flex flex-1">
             <Sidebar />
-            <div className="flex w-full flex-1 rounded-t-3xl flex-wrap relative bg-[#23232380] mr-20">
-              <div className="relative w-full flex-1 flex items-center justify-center z-10">
+            <div className="flex w-full flex-1 rounded-3xl flex-wrap relative">
+              <div className="relative w-full flex-1 ml-14 flex items-center justify-center z-10">
                 {children}
               </div>
             </div>

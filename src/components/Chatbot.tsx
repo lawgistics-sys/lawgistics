@@ -1,22 +1,27 @@
 "use client";
-import { Globe, Lightbulb, Search, Cog, ArrowUp } from "lucide-react";
+import {
+  Paperclip,
+  ArrowUpCircle,
+  Globe,
+  Lightbulb,
+  Search,
+  Cog,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import TypingDots from "./TypingDots";
-import NavButtons from "./NavButtons";
-import Logo from "./Logo";
-interface Messages {
-  id: number;
-  sender: string;
-  text: string;
-  source: string;
-  sourceContent: string;
-}
 
 export default function ChatBox() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null); // 1. Add ref
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
-  const [messages, setMessages] = useState<Messages[]>([]);
+  const [messages, setMessages] = useState([
+    {
+      id: 1,
+      sender: "assistant",
+      text: "Hi there! I'm your AI assistant—how can I support you today?",
+      source: '',
+    },
+  ]);
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -26,8 +31,7 @@ export default function ChatBox() {
       id: messages.length + 1,
       sender: "user",
       text: inputValue.replace(/^[\s\n]+/, ""),
-      source: "",
-      sourceContent: "",
+      source: '',
     };
     setMessages((prev) => [...prev, newMessage]);
     setInputValue("");
@@ -47,136 +51,71 @@ export default function ChatBox() {
     });
 
     const data = await response.json();
-    console.log(data);
+
     const obj = {
       id: messages.length + 2,
       sender: "assistant",
       text: data?.answer,
-      source: "",
-      sourceContent: "",
+      source: '',
     };
-    const keywords = ["case", "tax", "citation", "law", "court"];
-    if (keywords.some((word) => inputValue.toLowerCase().includes(word))) {
-      obj.source =
-        "https://roysrijan.github.io/chatbot/" +
-        (data?.sources?.[0]?.metadata?.source || "");
-      obj.sourceContent = data?.sources?.[0]?.page_content;
+    if (inputValue.toLocaleLowerCase().includes("case study")) {
+      obj.source = "https://roysrijan.github.io/chatbot/" + (data?.sources?.[0]?.metadata?.source || "");
     }
     setLoading(false);
     return obj;
   };
-  function formatLegalText(text: string) {
-    // Use regex to split at every opening parenthesis `(` and retain the bracket
-    const parts = text.split(/(?=\()/g);
-
-    return parts.map((part, idx) => (
-      <div key={idx} className="mb-1 leading-relaxed">
-        {part.trim()}
-      </div>
-    ));
-  }
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center">
-      <div
-        className={`flex flex-col items-center w-full transition-all duration-700
-          ${
-            messages.length > 0
-              ? "opacity-0 -translate-y-32 pointer-events-none hidden"
-              : "opacity-100 translate-y-0 "
-          }
-        `}
-        style={{ willChange: "opacity, transform" }}
-      >
-        <Logo />
-        <NavButtons />
-      </div>
-
-      <div
-        className={`mb-4 overflow-y-auto space-y-2 scrollbar-thin flex-1 w-4/5 max-h-[480px] ${
-          messages.length > 0 ? "" : "hidden"
-        }`}
-      >
+    <div className="bg-[#FFFFFFDB] backdrop-blur-md rounded-xl p-6 pb-0 pr-0 mt-8 w-full max-w-2xl mx-auto text-black flex flex-col h-[400px]">
+      {/* Messages Area */}
+      <div className="mb-4 overflow-y-auto space-y-2 flex-1 scrollbar-thin">
         {messages.map((msg, idx) => (
           <div
             key={msg.id}
             ref={idx === messages.length - 1 ? messagesEndRef : null}
             className={`py-2 rounded pr-6 ${
               msg.sender === "assistant" ? "text-left" : "text-right"
-            }`}
+              }`}
           >
-            {formatLegalText(msg.text)}
+            {msg.text}
             {msg.source && (
-              <div className="relative group inline-block text-xs mt-1">
-                <a
-                  href={msg.source}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-gray-100 text-gray-800 font-medium px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300 hover:underline"
-                >
-                  Source
+              <div className="text-xs text-gray-500 mt-1">
+                Source:{" "}
+                <a href={msg.source} target="_blank" rel="noopener noreferrer">
+                  {msg.source}
                 </a>
-
-                {/* Tooltip */}
-                <div className="absolute bottom-full left-1/2 transform mb-2 hidden group-hover:block bg-white text-black text-left text-xs rounded shadow-lg px-4 py-3 z-10 w-64 max-w-xs whitespace-normal break-words a">
-                  <h4 className="font-semibold text-sm mb-1">{msg.source}</h4>
-                  <p className="text-xs">{msg.sourceContent}</p>
-                </div>
               </div>
             )}
           </div>
         ))}
         {loading && <TypingDots />}
       </div>
-      {/* Messages Area */}
 
       {/* Input Area */}
-      <div
-        className={`bg-transparent text-white rounded-xl p-6 pr-0 w-full max-w-2xl mx-auto flex flex-col h-[170px] transition-all duration-700 min-w-4/5
-          ${messages.length > 0 ? "opacity-100 " : "opacity-100"}
-        `}
-      >
-        {/* Input Area */}
-        <div className="relative w-full border border-white p-6 rounded-xl text-white mt-2 pr-6 h-full items-end min-w-4/5">
-          <div className="relative">
-            <textarea
-              className="w-full h-full resize-none bg-transparent outline-none border-none focus:outline-none focus:border-none text-white mx-2 min-h-full flex flex-1 "
-              placeholder="Ask Your Right..."
-              value={inputValue.replace(/^[\s\n]+/, "")}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  handleSendMessage();
-                }
-              }}
-            />
-            {/* Floating Buttons Centered and Overlapping */}
-            <div className="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-15 flex space-x-2 z-10 bg-[#333333]">
-              <button className="shadow-lg rounded-full p-2 hover:bg-gray-100 transition">
-                <Globe size={20} />
-              </button>
-              <button className="shadow-lg rounded-full p-2 hover:bg-gray-100 transition">
-                <Lightbulb size={20} />
-              </button>
-              <button className="shadow-lg rounded-full p-2 hover:bg-gray-100 transition">
-                <Cog size={20} />
-              </button>
-              <button className="shadow-lg rounded-full p-2 hover:bg-gray-100 transition">
-                <Search size={20} />
-              </button>
-            </div>
-            <div className="absolute right-2 bottom-0 translate-y-15 flex space-x-2">
-              <button
-                className={`bg-white shadow-lg rounded-md p-2 hover:white transition text-white ${
-                  loading && "cursor-wait"
-                }`}
-                onClick={handleSendMessage}
-                type="button"
-              >
-                <ArrowUp color="black" size={20} />
-              </button>
-            </div>
-          </div>
+      <div className="flex justify-between items-start text-black mt-2 pr-6">
+        <div className="flex space-x-4">
+          <Globe />
+          <Lightbulb />
+          <Cog />
+          <Search />
+        </div>
+        <textarea
+          className="w-full resize-none bg-transparent outline-none border-none focus:outline-none h-12 focus:border-none text-black mx-2"
+          placeholder="Type your message..."
+          value={inputValue.replace(/^[\s\n]+/, "")}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault(); // Prevents newline on enter
+              handleSendMessage();
+            }
+          }}
+        />
+        <div className="flex space-x-4">
+          <Paperclip />
+          <ArrowUpCircle
+            className="cursor-pointer"
+            onClick={handleSendMessage}
+          />
         </div>
       </div>
     </div>
