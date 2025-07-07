@@ -9,6 +9,7 @@ interface Messages {
   sender: string;
   text: string;
   source: string;
+  sourceContent: string;
 }
 
 export default function ChatBox() {
@@ -26,6 +27,7 @@ export default function ChatBox() {
       sender: "user",
       text: inputValue.replace(/^[\s\n]+/, ""),
       source: "",
+      sourceContent: "",
     };
     setMessages((prev) => [...prev, newMessage]);
     setInputValue("");
@@ -45,18 +47,20 @@ export default function ChatBox() {
     });
 
     const data = await response.json();
-
+    console.log(data);
     const obj = {
       id: messages.length + 2,
       sender: "assistant",
       text: data?.answer,
       source: "",
+      sourceContent: "",
     };
     const keywords = ["case", "tax", "citation", "law", "court"];
-    if (keywords.some(word => inputValue.toLowerCase().includes(word))) {
+    if (keywords.some((word) => inputValue.toLowerCase().includes(word))) {
       obj.source =
-      "https://roysrijan.github.io/chatbot/" +
-      (data?.sources?.[0]?.metadata?.source || "");
+        "https://roysrijan.github.io/chatbot/" +
+        (data?.sources?.[0]?.metadata?.source || "");
+      obj.sourceContent = data?.sources?.[0]?.page_content;
     }
     setLoading(false);
     return obj;
@@ -92,11 +96,21 @@ export default function ChatBox() {
           >
             {msg.text}
             {msg.source && (
-              <div className="text-xs text-gray-500 mt-1">
-                <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">Source</span>{" "}
-                <a href={msg.source} className="hover:text-white hover:underline" target="_blank" rel="noopener noreferrer">
-                  {msg.source}
+              <div className="relative group inline-block text-xs mt-1">
+                <a
+                  href={msg.source}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gray-100 text-gray-800 font-medium px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300 hover:underline"
+                >
+                  Source
                 </a>
+
+                {/* Tooltip */}
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-white text-black text-left text-xs rounded shadow-lg px-4 py-3 z-10 w-64 max-w-xs whitespace-normal break-words">
+                  <h4 className="font-semibold text-sm mb-1">{msg.source}</h4>
+                  <p className="text-xs">{msg.sourceContent}</p>
+                </div>
               </div>
             )}
           </div>
@@ -143,7 +157,9 @@ export default function ChatBox() {
             </div>
             <div className="absolute right-2 bottom-0 translate-y-15 flex space-x-2">
               <button
-                className="bg-white shadow-lg rounded-md p-2 hover:white transition text-white"
+                className={`bg-white shadow-lg rounded-md p-2 hover:white transition text-white ${
+                  loading && "cursor-wait"
+                }`}
                 onClick={handleSendMessage}
                 type="button"
               >
