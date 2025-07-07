@@ -65,6 +65,16 @@ export default function ChatBox() {
     setLoading(false);
     return obj;
   };
+  function formatLegalText(text: string) {
+    // Use regex to split at every opening parenthesis `(` and retain the bracket
+    const parts = text.split(/(?=\()/g);
+
+    return parts.map((part, idx) => (
+      <div key={idx} className="mb-1 leading-relaxed">
+        {part.trim()}
+      </div>
+    ));
+  }
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
       <div
@@ -94,7 +104,7 @@ export default function ChatBox() {
               msg.sender === "assistant" ? "text-left" : "text-right"
             }`}
           >
-            {msg.text}
+            {formatLegalText(msg.text)}
             {msg.source && (
               <div className="relative group inline-block text-xs mt-1">
                 <a
@@ -107,7 +117,7 @@ export default function ChatBox() {
                 </a>
 
                 {/* Tooltip */}
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-white text-black text-left text-xs rounded shadow-lg px-4 py-3 z-10 w-64 max-w-xs whitespace-normal break-words">
+                <div className="absolute bottom-full left-1/2 transform mb-2 hidden group-hover:block bg-white text-black text-left text-xs rounded shadow-lg px-4 py-3 z-10 w-64 max-w-xs whitespace-normal break-words a">
                   <h4 className="font-semibold text-sm mb-1">{msg.source}</h4>
                   <p className="text-xs">{msg.sourceContent}</p>
                 </div>
